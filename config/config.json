@@ -1,0 +1,28 @@
+{
+    "development": {
+        "username": "krisna",
+        "password": "123456",
+        "database": "porto_development",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "krisna",
+        "password": "123456",
+        "database": "porto_test",
+        "host": "127.0.0.1",
+        "dialect": "postgres"
+    },
+    "production": {
+        "use_env_variable": "DATABASE_URL",
+        "ssl": true,
+        "dialect": "postgres",
+        "protocol": "postgres",
+        "dialectOptions": {
+            "ssl": {
+                "require": true,
+                "rejectUnauthorized": false
+            }
+        }
+    }
+}
