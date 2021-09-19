@@ -1,14 +1,18 @@
-const aniApiController = require('../controllers/aniApiController');
-const eventController = require('../controllers/eventController');
-const tmdbController = require('../controllers/tmdbController');
-
 const router = require('express').Router();
+const tmdbRoutes = require('./tmdbRoutes');
+const tmdbTvRoutes = require('./tmdbRoutes');
+const aniApiRoutes = require('./aniApiRoutes');
+const usersRoutes = require('./userRoutes');
+const eventsRoutes = require('./eventsRoutes');
 
 router.get('/', (req, res, next) => {
     res.send('Welcome to WatchaTime DB for full documentation go here: ');
 });
-router.get('/movies', tmdbController.getAll);
-router.get('/movies/trending', tmdbController.getTrending);
-router.get('/animes', aniApiController.getAll);
-router.get('/events', eventController.getAll);
+
+router.use('/movies', tmdbRoutes);
+router.use('/animes', aniApiRoutes);
+router.use('/tvShows', tmdbTvRoutes);
+router.use('/users', usersRoutes);
+router.use('/events', eventsRoutes);
+
 module.exports = router;

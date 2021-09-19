@@ -4,14 +4,6 @@ const { sign } = require('../helpers/jwt');
 const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
-    static async findAll(req, res, next) {
-        try {
-            const result = await User.findAll();
-            res.status(200).json(result);
-        } catch (err) {
-            next(err);
-        }
-    }
     static async signup(req, res, next) {
         const { email, password } = req.body;
         try {
@@ -111,7 +103,7 @@ class UserController {
         try {
             const user = await User.findByPk(id);
             if (user) {
-                const result = await User.destroy({ where: { id } });
+                await User.destroy({ where: { id } });
                 res.status(200).json({ message: `User with id: ${id} deleted` });
             } else {
                 throw {
