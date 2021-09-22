@@ -1,27 +1,13 @@
 const { google } = require('googleapis');
 const { Event } = require('../models');
+const { OAuth2Client } = require('google-auth-library');
+
 const calendar = google.calendar({
     version: 'v3',
     auth: process.env.GOOGLE_API_KEY, // specify your API key here
 });
 
 class eventController {
-    static async getGoogleCal(req, res, next) {
-        try {
-            console.log(calendar);
-            const calendarData = await calendar.events.list({
-                calendarId: 'primary',
-                timeMin: new Date().toISOString(),
-                maxResults: 10,
-                singleEvents: true,
-                orderBy: 'startTime',
-            });
-            res.status(200).json(calendarData);
-        } catch (err) {
-            next(err);
-        }
-    }
-
     static async getAll(req, res, next) {
         try {
             const UserId = req.user.id;
@@ -33,8 +19,15 @@ class eventController {
     }
     static async create(req, res, next) {
         try {
-            const { start, end, status = 'active', summary } = req.body;
-            const createdEvent = await Event.create({ start, end, status, summary });
+            const { start, end, status, summary } = req.body;
+            const UserId = req.user.id;
+            const createdEvent = await Event.create({
+                start,
+                end,
+                status,
+                summary,
+                UserId,
+            });
             res.status(201).json(createdEvent);
         } catch (err) {
             next(err);

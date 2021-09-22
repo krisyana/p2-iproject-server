@@ -2,6 +2,7 @@ const aniApiController = require('../controllers/aniApiController');
 
 const router = require('express').Router();
 
-router.get('/animes', aniApiController.getAll);
+router.get('/', aniApiController.getAll);
+router.get('/:id', aniApiController.getOne);
 
 module.exports = router;

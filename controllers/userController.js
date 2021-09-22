@@ -5,9 +5,9 @@ const { OAuth2Client } = require('google-auth-library');
 
 class UserController {
     static async signup(req, res, next) {
-        const { email, password } = req.body;
+        const { email, password, username } = req.body;
         try {
-            const result = await User.create({ email, password, role: 'admin' });
+            const result = await User.create({ email, password, username });
             res.status(201).json({ id: result.id, email: result.email });
         } catch (err) {
             next(err);
@@ -31,14 +31,12 @@ class UserController {
                     email,
                     username,
                     password: email,
-                    role: 'staff',
                 },
             });
             // console.log(googleUser)
             const access_token = await sign({
                 id: googleUser[0].id,
                 email: googleUser[0].email,
-                role: googleUser[0].role,
             });
             // console.log(access_token)
             res.status(200).json({ access_token });
@@ -51,13 +49,13 @@ class UserController {
         try {
             const userFind = await User.findOne({ where: { email } });
             if (userFind) {
-                const validate = await decode(password, userFind.password);
+                const validate = decode(password, userFind.password);
                 if (validate) {
-                    const access_token = await sign({
+                    const access_token = sign({
                         id: userFind.id,
                         email: userFind.email,
-                        role: userFind.role,
                     });
+                    console.log(access_token);
                     res.status(200).json({ access_token });
                 } else {
                     throw {
@@ -73,6 +71,13 @@ class UserController {
                     msg: 'Email/Password is not valid',
                 };
             }
+        } catch (err) {
+            next(err);
+        }
+    }
+    static async getOne(req, res, next) {
+        try {
+            res.status(200).json(req.user);
         } catch (err) {
             next(err);
         }
