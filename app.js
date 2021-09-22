@@ -4,6 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const port = process.env.PORT | 3000;
 
 // In App Module
 const router = require('./routes');
@@ -19,8 +20,8 @@ app.use(router);
 // Midlleware error handling
 app.use(errorHandler);
 
-// app.listen(port, () => {
-//     console.log(`Example app listening at http://localhost:${port}`);
-// });
+app.listen(port, () => {
+    console.log(`app listening at http://localhost:${port}`);
+});
 
 module.exports = app;

@@ -7,7 +7,9 @@ const eventsRoutes = require('./eventsRoutes');
 const authentication = require('../middlewares/authentication');
 
 router.get('/', (req, res) => {
-    res.send('Welcome to WatchaTime DB for full documentation go here: ');
+    res.send(
+        'Welcome to WatchaTime DB for full documentation go here: https://github.com/krisyana/p2-iproject-server/blob/development/watchatime_api_doc.md '
+    );
 });
 router.use('/users', usersRoutes);
 router.use('/movies', tmdbRoutes);
