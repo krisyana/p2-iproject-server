@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const tmdbRoutes = require('./tmdbRoutes');
-const tmdbTvRoutes = require('./tmdbRoutes');
+const tmdbTvRoutes = require('./tmdbTvRoutes');
 const aniApiRoutes = require('./aniApiRoutes');
 const usersRoutes = require('./userRoutes');
 const eventsRoutes = require('./eventsRoutes');
@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
 router.use('/users', usersRoutes);
 router.use('/movies', tmdbRoutes);
 router.use('/animes', aniApiRoutes);
-router.use('/tvShows', tmdbTvRoutes);
+router.use('/tvs', tmdbTvRoutes);
 router.use(authentication);
 router.use('/events', eventsRoutes);
 

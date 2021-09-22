@@ -11,7 +11,18 @@ class eventController {
     static async getAll(req, res, next) {
         try {
             const UserId = req.user.id;
-            const events = await Event.findAll({ where: UserId });
+            const events = await Event.findAll({ where: { UserId } });
+            res.status(200).json(events);
+        } catch (err) {
+            next(err);
+        }
+    }
+    static async getCompleted(req, res, next) {
+        try {
+            const UserId = req.user.id;
+            const events = await Event.findAll({
+                where: { UserId, status: 'completed' },
+            });
             res.status(200).json(events);
         } catch (err) {
             next(err);
@@ -39,7 +50,7 @@ class eventController {
             const { id } = req.params;
             const { start, end, status, summary } = req.body;
             const updatedEvent = await Event.update({ start, end, status, summary }, { where: { id } });
-            res.status(201).json(updatedEvent);
+            res.status(200).json(updatedEvent);
         } catch (err) {
             next(err);
         }
@@ -48,8 +59,7 @@ class eventController {
     static async updateStatus(req, res, next) {
         try {
             const { id } = req.params;
-            const { status } = req.body;
-            const updatedEvent = await Event.update({ status }, { where: { id } });
+            const updatedEvent = await Event.update({ status: 'completed' }, { where: { id } });
             res.status(200).json(updatedEvent);
         } catch (err) {
             next(err);
